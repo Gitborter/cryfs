@@ -67,7 +67,22 @@ ProgramOptions Parser::parse(const vector<string> &supportedCiphers) const {
         blocksizeBytes = vm["blocksize"].as<uint32_t>();
     }
 
-    return ProgramOptions(baseDir, mountDir, configfile, foreground, unmountAfterIdleMinutes, logfile, cipher, blocksizeBytes, options.second);
+    optional<uint32_t> hashblockSize = none;
+    if (vm.count("hashblocksize")) {
+        hashblockSize = vm["hashblocksize"].as<uint32_t>();
+    }
+
+    optional<uint32_t> iterationCount = none;
+    if (vm.count("iterationcount")) {
+       iterationCount = vm["iterationcount"].as<uint32_t>();
+    }
+
+    optional<uint32_t> parallelizationFactor = none;
+    if (vm.count("parallelizationfactor")) {
+      parallelizationFactor = vm["parallelizationfactor"].as<uint32_t>();
+    }
+
+    return ProgramOptions(baseDir, mountDir, configfile, foreground, unmountAfterIdleMinutes, logfile, cipher, blocksizeBytes, iterationCount, hashblockSize, parallelizationFactor, options.second);
 }
 
 void Parser::_checkValidCipher(const string &cipher, const vector<string> &supportedCiphers) {
@@ -114,6 +129,9 @@ void Parser::_addAllowedOptions(po::options_description *desc) {
             ("foreground,f", "Run CryFS in foreground.")
             ("cipher", po::value<string>(), "Cipher to use for encryption. See possible values by calling cryfs with --show-ciphers.")
             ("blocksize", po::value<uint32_t>(), "The block size used when storing ciphertext blocks (in bytes).")
+            ("hashblocksize,r", po::value<uint32_t>(), "Blocksize in use for underlying hash; fine-tunes the relative memory-cost.")
+            ("iterationcount,N", po::value<uint32_t>(), "General work factor, iteration count.")
+            ("parallelizationfactor,p", po::value<uint32_t>(), "parallelization factor; fine-tunes the relative cpu-cost")
             ("show-ciphers", "Show list of supported ciphers.")
             ("unmount-idle", po::value<double>(), "Automatically unmount after specified number of idle minutes.")
             ("logfile", po::value<string>(), "Specify the file to write log messages to. If this is not specified, log messages will go to stdout, or syslog if CryFS is running in the background.")
