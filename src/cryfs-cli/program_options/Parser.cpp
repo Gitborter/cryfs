@@ -74,7 +74,7 @@ ProgramOptions Parser::parse(const vector<string> &supportedCiphers) const {
 
     optional<uint32_t> iterationCount = none;
     if (vm.count("iterationcount")) {
-       iterationCount = vm["iterationcount"].as<uint32_t>();
+       iterationCount = vm["iterationcount"].as<uint64_t>();
     }
 
     optional<uint32_t> parallelizationFactor = none;
@@ -129,9 +129,9 @@ void Parser::_addAllowedOptions(po::options_description *desc) {
             ("foreground,f", "Run CryFS in foreground.")
             ("cipher", po::value<string>(), "Cipher to use for encryption. See possible values by calling cryfs with --show-ciphers.")
             ("blocksize", po::value<uint32_t>(), "The block size used when storing ciphertext blocks (in bytes).")
-            ("hashblocksize,r", po::value<uint32_t>(), "Blocksize in use for underlying hash; fine-tunes the relative memory-cost.")
-            ("iterationcount,N", po::value<uint32_t>(), "General work factor, iteration count.")
-            ("parallelizationfactor,p", po::value<uint32_t>(), "parallelization factor; fine-tunes the relative cpu-cost")
+            ("hashblocksize,r", po::value<uint32_t>(), "Blocksize in use for underlying hash; fine-tunes the relative memory-cost. (default :4)")
+            ("iterationcount,N", po::value<uint64_t>(), "General work factor, iteration count. (default :1048576)")
+            ("parallelizationfactor,p", po::value<uint32_t>(), "parallelization factor; fine-tunes the relative cpu-cost (default :1)")
             ("show-ciphers", "Show list of supported ciphers.")
             ("unmount-idle", po::value<double>(), "Automatically unmount after specified number of idle minutes.")
             ("logfile", po::value<string>(), "Specify the file to write log messages to. If this is not specified, log messages will go to stdout, or syslog if CryFS is running in the background.")

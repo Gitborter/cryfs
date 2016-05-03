@@ -13,7 +13,7 @@ ProgramOptions::ProgramOptions(const bf::path &baseDir, const bf::path &mountDir
                                const optional<bf::path> &logFile, const optional<string> &cipher,
                                const optional<uint32_t> &blocksizeBytes,
                                const optional<uint32_t> &hashblockSize,
-                               const optional<uint32_t> &iterationCount,
+                               const optional<uint64_t> &iterationCount,
                                const optional<uint32_t> &parallelizationFactor,
                                const vector<char*> &fuseOptions)
     :_baseDir(baseDir), _mountDir(nullptr), _configFile(configFile), _foreground(foreground),
@@ -80,7 +80,7 @@ const optional<uint32_t> &ProgramOptions::hashblockSize() const {
     return _hashblockSize;
 }
 
-const optional<uint32_t> &ProgramOptions::iterationCount() const {
+const optional<uint64_t> &ProgramOptions::iterationCount() const {
     return _iterationCount;
 }
 
