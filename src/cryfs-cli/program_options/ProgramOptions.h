@@ -18,9 +18,7 @@ namespace cryfs {
                            const boost::optional<boost::filesystem::path> &logFile,
                            const boost::optional<std::string> &cipher,
                            const boost::optional<uint32_t> &blocksizeBytes,
-                           const boost::optional<uint64_t> &iterationCount,
-                           const boost::optional<uint32_t> &hashblockSize,
-                           const boost::optional<uint32_t> &parallelizationFactor,
+                           const boost::optional<string> &scryptParameters,
                            const std::vector<char *> &fuseOptions);
             ProgramOptions(ProgramOptions &&rhs);
             ~ProgramOptions();
@@ -31,9 +29,7 @@ namespace cryfs {
             bool foreground() const;
             const boost::optional<std::string> &cipher() const;
             const boost::optional<uint32_t> &blocksizeBytes() const;
-            const boost::optional<uint64_t> &iterationCount() const;
-            const boost::optional<uint32_t> &hashblockSize() const;
-            const boost::optional<uint32_t> &parallelizationFactor() const;
+            const boost::optional<string> &scryptParameters() const;
             const boost::optional<double> &unmountAfterIdleMinutes() const;
             const boost::optional<boost::filesystem::path> &logFile() const;
             const std::vector<char *> &fuseOptions() const;
@@ -45,9 +41,7 @@ namespace cryfs {
             bool _foreground;
             boost::optional<std::string> _cipher;
             boost::optional<uint32_t> _blocksizeBytes;
-            boost::optional<uint64_t> _iterationCount;
-            boost::optional<uint32_t> _hashblockSize;
-            boost::optional<uint32_t> _parallelizationFactor;
+            boost::optional<string> _scryptParameters;
             boost::optional<double> _unmountAfterIdleMinutes;
             boost::optional<boost::filesystem::path> _logFile;
             std::vector<char *> _fuseOptions;

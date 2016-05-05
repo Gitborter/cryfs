@@ -12,13 +12,10 @@ ProgramOptions::ProgramOptions(const bf::path &baseDir, const bf::path &mountDir
                                bool foreground, const optional<double> &unmountAfterIdleMinutes,
                                const optional<bf::path> &logFile, const optional<string> &cipher,
                                const optional<uint32_t> &blocksizeBytes,
-                               const optional<uint32_t> &hashblockSize,
-                               const optional<uint64_t> &iterationCount,
-                               const optional<uint32_t> &parallelizationFactor,
+                               const optional<string> &scryptParameters,
                                const vector<char*> &fuseOptions)
     :_baseDir(baseDir), _mountDir(nullptr), _configFile(configFile), _foreground(foreground),
-     _cipher(cipher), _blocksizeBytes(blocksizeBytes), _hashblockSize(hashblockSize), _iterationCount(iterationCount),
-     _parallelizationFactor(parallelizationFactor), _unmountAfterIdleMinutes(unmountAfterIdleMinutes),
+     _cipher(cipher), _blocksizeBytes(blocksizeBytes), _scryptParameters(scryptParameters), _unmountAfterIdleMinutes(unmountAfterIdleMinutes),
      _logFile(logFile), _fuseOptions(fuseOptions) {
 
     string mountDirStr = mountDir.native();
@@ -33,8 +30,7 @@ ProgramOptions::ProgramOptions(ProgramOptions &&rhs)
     :_baseDir(std::move(rhs._baseDir)), _mountDir(std::move(rhs._mountDir)), _configFile(std::move(rhs._configFile)),
      _foreground(std::move(rhs._foreground)), _cipher(std::move(rhs._cipher)),
      _unmountAfterIdleMinutes(std::move(rhs._unmountAfterIdleMinutes)), _logFile(std::move(rhs._logFile)),
-     _hashblockSize(std::move(rhs._hashblockSize)), _iterationCount(std::move(rhs._iterationCount)),
-     _parallelizationFactor(std::move(rhs._parallelizationFactor)), _fuseOptions(std::move(rhs._fuseOptions)) {
+     _scryptParameters(std::move(rhs._scryptParameters)), _fuseOptions(std::move(rhs._fuseOptions)) {
     rhs._mountDir = nullptr;
 }
 
@@ -76,16 +72,8 @@ const optional<uint32_t> &ProgramOptions::blocksizeBytes() const {
     return _blocksizeBytes;
 }
 
-const optional<uint32_t> &ProgramOptions::hashblockSize() const {
-    return _hashblockSize;
-}
-
-const optional<uint64_t> &ProgramOptions::iterationCount() const {
-    return _iterationCount;
-}
-
-const optional<uint32_t> &ProgramOptions::parallelizationFactor() const {
-    return _parallelizationFactor;
+const optional<string> &ProgramOptions::scryptParameters() const {
+    return _scryptParameters;
 }
 
 const vector<char *> &ProgramOptions::fuseOptions() const {
