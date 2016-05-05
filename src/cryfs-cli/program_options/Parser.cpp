@@ -69,7 +69,7 @@ ProgramOptions Parser::parse(const vector<string> &supportedCiphers) const {
 
     optional<string> scryptParameters = none;
     if (vm.count("scrypt-parameters")) {
-        hashblockSize = vm["scrypt-parameters"].as<string>();
+        scryptParameters = vm["scrypt-parameters"].as<string>();
     }
 
     return ProgramOptions(baseDir, mountDir, configfile, foreground, unmountAfterIdleMinutes, logfile, cipher, blocksizeBytes, scryptParameters, options.second);
