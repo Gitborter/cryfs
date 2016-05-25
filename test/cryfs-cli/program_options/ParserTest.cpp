@@ -5,14 +5,13 @@
 using namespace cryfs;
 using namespace cryfs::program_options;
 using std::vector;
-using std::string;
 using boost::none;
 namespace bf = boost::filesystem;
 
 class ProgramOptionsParserTest: public ProgramOptionsTestBase {
 public:
     ProgramOptions parse(std::initializer_list<const char*> options) {
-        vector<const char*> _options = options;
+        vector<char*> _options = ProgramOptionsTestBase::options(options);
         return Parser(_options.size(), _options.data()).parse(CryCiphers::supportedCipherNames());
     }
 };
@@ -60,7 +59,7 @@ TEST_F(ProgramOptionsParserTest, NoSpecialOptions) {
     EXPECT_EQ("/home/user/mountDir", options.mountDir());
     EXPECT_EQ(none, options.logFile());
     EXPECT_EQ(none, options.configFile());
-    EXPECT_VECTOR_EQ({}, options.fuseOptions());
+    EXPECT_VECTOR_EQ({"./myExecutable", "/home/user/mountDir"}, options.fuseOptions());
 }
 
 TEST_F(ProgramOptionsParserTest, RelativeBaseDir) {
@@ -124,5 +123,5 @@ TEST_F(ProgramOptionsParserTest, FuseOptionGiven) {
     ProgramOptions options = parse({"./myExecutable", "/home/user/baseDir", "/home/user/mountDir", "--", "-f"});
     EXPECT_EQ("/home/user/baseDir", options.baseDir());
     EXPECT_EQ("/home/user/mountDir", options.mountDir());
-    EXPECT_VECTOR_EQ({"-f"}, options.fuseOptions());
+    EXPECT_VECTOR_EQ({"./myExecutable", "/home/user/mountDir", "-f"}, options.fuseOptions());
 }

@@ -19,8 +19,7 @@ namespace cryfs {
                            const boost::optional<std::string> &cipher,
                            const boost::optional<uint32_t> &blocksizeBytes,
                            const boost::optional<std::string> &scryptParameters,
-                           const std::vector<std::string> &fuseOptions);
-
+            		   const std::vector<std::string> &fuseOptions);
             ProgramOptions(ProgramOptions &&rhs) = default;
             const boost::filesystem::path &baseDir() const;
             const boost::filesystem::path &mountDir() const;

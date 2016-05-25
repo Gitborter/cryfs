@@ -5,7 +5,6 @@
 #include <boost/thread.hpp>
 #include <boost/chrono.hpp>
 #include <cpp-utils/macros.h>
-#include <boost/filesystem/path.hpp>
 
 namespace fspp {
 namespace fuse {
@@ -16,7 +15,7 @@ namespace fuse {
 class FuseThread {
 public:
   FuseThread(fspp::fuse::Fuse *fuse);
-  void start(const boost::filesystem::path &mountDir, const std::vector<std::string> &fuseOptions);
+  void start(int argc, char *argv[]);
   void stop();
 
 private:

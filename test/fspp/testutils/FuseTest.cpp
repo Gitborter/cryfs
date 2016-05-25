@@ -54,7 +54,11 @@ unique_ref<FuseTest::TempTestFS> FuseTest::TestFS() {
 }
 
 FuseTest::TempTestFS::TempTestFS(MockFilesystem *fsimpl): _mountDir(), _fuse(fsimpl), _fuse_thread(&_fuse) {
-  _fuse_thread.start(_mountDir.path(), {"-f"});
+  std::string dirpath = _mountDir.path().native();
+  int argc = 3;
+  const char *argv[] = {"test", "-f", dirpath.c_str()};
+
+  _fuse_thread.start(argc, const_cast<char**>(argv));
 }
 
 FuseTest::TempTestFS::~TempTestFS() {

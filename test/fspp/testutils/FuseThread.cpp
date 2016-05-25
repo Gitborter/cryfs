@@ -9,8 +9,6 @@
 using boost::thread;
 using boost::chrono::seconds;
 using std::string;
-using std::vector;
-namespace bf = boost::filesystem;
 
 using fspp::fuse::Fuse;
 
@@ -18,9 +16,9 @@ FuseThread::FuseThread(Fuse *fuse)
   :_fuse(fuse), _child() {
 }
 
-void FuseThread::start(const bf::path &mountDir, const vector<string> &fuseOptions) {
-  _child = thread([this, mountDir, fuseOptions] () {
-    _fuse->run(mountDir, fuseOptions);
+void FuseThread::start(int argc, char *argv[]) {
+  _child = thread([this, argc, argv] () {
+    _fuse->run(argc, argv);
   });
   //Wait until it is running (busy waiting is simple and doesn't hurt much here)
   while(!_fuse->running()) {}

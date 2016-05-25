@@ -9,106 +9,106 @@ using std::string;
 class ProgramOptionsUtilsTest: public ProgramOptionsTestBase {};
 
 TEST_F(ProgramOptionsUtilsTest, SplitAtDoubleDash_ZeroOptions) {
-    vector<string> input = {"./executableName"};
-    pair<vector<string>,vector<string>> result = splitAtDoubleDash(input);
+    vector<char*> input = options({"./executableName"});
+    pair<vector<char*>,vector<char*>> result = splitAtDoubleDash(input);
     EXPECT_VECTOR_EQ({"./executableName"}, result.first);
-    EXPECT_VECTOR_EQ({}, result.second);
+    EXPECT_VECTOR_EQ({"./executableName"}, result.second);
 }
 
 TEST_F(ProgramOptionsUtilsTest, SplitAtDoubleDash_OneShortOption) {
-    vector<string> input = {"./executableName", "-j"};
-    pair<vector<string>,vector<string>> result = splitAtDoubleDash(input);
+    vector<char*> input = options({"./executableName", "-j"});
+    pair<vector<char*>,vector<char*>> result = splitAtDoubleDash(input);
     EXPECT_VECTOR_EQ({"./executableName", "-j"}, result.first);
-    EXPECT_VECTOR_EQ({}, result.second);
+    EXPECT_VECTOR_EQ({"./executableName"}, result.second);
 }
 
 TEST_F(ProgramOptionsUtilsTest, SplitAtDoubleDash_OneLongOption) {
-    vector<string> input = {"./executableName", "--myoption"};
-    pair<vector<string>,vector<string>> result = splitAtDoubleDash(input);
+    vector<char*> input = options({"./executableName", "--myoption"});
+    pair<vector<char*>,vector<char*>> result = splitAtDoubleDash(input);
     EXPECT_VECTOR_EQ({"./executableName", "--myoption"}, result.first);
-    EXPECT_VECTOR_EQ({}, result.second);
+    EXPECT_VECTOR_EQ({"./executableName"}, result.second);
 }
 
 TEST_F(ProgramOptionsUtilsTest, SplitAtDoubleDash_OnePositionalOption) {
-    vector<string> input = {"./executableName", "mypositionaloption"};
-    pair<vector<string>,vector<string>> result = splitAtDoubleDash(input);
+    vector<char*> input = options({"./executableName", "mypositionaloption"});
+    pair<vector<char*>,vector<char*>> result = splitAtDoubleDash(input);
     EXPECT_VECTOR_EQ({"./executableName", "mypositionaloption"}, result.first);
-    EXPECT_VECTOR_EQ({}, result.second);
+    EXPECT_VECTOR_EQ({"./executableName"}, result.second);
 }
 
 TEST_F(ProgramOptionsUtilsTest, SplitAtDoubleDash_OneShortOption_DoubleDash) {
-    vector<string> input = {"./executableName", "-j", "--"};
-    pair<vector<string>,vector<string>> result = splitAtDoubleDash(input);
+    vector<char*> input = options({"./executableName", "-j", "--"});
+    pair<vector<char*>,vector<char*>> result = splitAtDoubleDash(input);
     EXPECT_VECTOR_EQ({"./executableName", "-j"}, result.first);
-    EXPECT_VECTOR_EQ({}, result.second);
+    EXPECT_VECTOR_EQ({"./executableName"}, result.second);
 }
 
 TEST_F(ProgramOptionsUtilsTest, SplitAtDoubleDash_OneLongOption_DoubleDash) {
-    vector<string> input = {"./executableName", "--myoption", "--"};
-    pair<vector<string>,vector<string>> result = splitAtDoubleDash(input);
+    vector<char*> input = options({"./executableName", "--myoption", "--"});
+    pair<vector<char*>,vector<char*>> result = splitAtDoubleDash(input);
     EXPECT_VECTOR_EQ({"./executableName", "--myoption"}, result.first);
-    EXPECT_VECTOR_EQ({}, result.second);
+    EXPECT_VECTOR_EQ({"./executableName"}, result.second);
 }
 
 TEST_F(ProgramOptionsUtilsTest, SplitAtDoubleDash_OnePositionalOption_DoubleDash) {
-    vector<string> input = {"./executableName", "mypositionaloption", "--"};
-    pair<vector<string>,vector<string>> result = splitAtDoubleDash(input);
+    vector<char*> input = options({"./executableName", "mypositionaloption", "--"});
+    pair<vector<char*>,vector<char*>> result = splitAtDoubleDash(input);
     EXPECT_VECTOR_EQ({"./executableName", "mypositionaloption"}, result.first);
-    EXPECT_VECTOR_EQ({}, result.second);
+    EXPECT_VECTOR_EQ({"./executableName"}, result.second);
 }
 
 TEST_F(ProgramOptionsUtilsTest, SplitAtDoubleDash_DoubleDash_OneShortOption) {
-    vector<string> input = {"./executableName", "--", "-a"};
-    pair<vector<string>,vector<string>> result = splitAtDoubleDash(input);
+    vector<char*> input = options({"./executableName", "--", "-a"});
+    pair<vector<char*>,vector<char*>> result = splitAtDoubleDash(input);
     EXPECT_VECTOR_EQ({"./executableName"}, result.first);
-    EXPECT_VECTOR_EQ({"-a"}, result.second);
+    EXPECT_VECTOR_EQ({"./executableName", "-a"}, result.second);
 }
 
 TEST_F(ProgramOptionsUtilsTest, SplitAtDoubleDash_DoubleDash_OneLongOption) {
-    vector<string> input = {"./executableName", "--", "--myoption"};
-    pair<vector<string>,vector<string>> result = splitAtDoubleDash(input);
+    vector<char*> input = options({"./executableName", "--", "--myoption"});
+    pair<vector<char*>,vector<char*>> result = splitAtDoubleDash(input);
     EXPECT_VECTOR_EQ({"./executableName"}, result.first);
-    EXPECT_VECTOR_EQ({"--myoption"}, result.second);
+    EXPECT_VECTOR_EQ({"./executableName", "--myoption"}, result.second);
 }
 
 TEST_F(ProgramOptionsUtilsTest, SplitAtDoubleDash_DoubleDash_OnePositionalOption) {
-    vector<string> input = {"./executableName", "--", "mypositionaloption"};
-    pair<vector<string>,vector<string>> result = splitAtDoubleDash(input);
+    vector<char*> input = options({"./executableName", "--", "mypositionaloption"});
+    pair<vector<char*>,vector<char*>> result = splitAtDoubleDash(input);
     EXPECT_VECTOR_EQ({"./executableName"}, result.first);
-    EXPECT_VECTOR_EQ({"mypositionaloption"}, result.second);
+    EXPECT_VECTOR_EQ({"./executableName", "mypositionaloption"}, result.second);
 }
 
 TEST_F(ProgramOptionsUtilsTest, SplitAtDoubleDash_OneShortOption_DoubleDash_OneShortOption) {
-    vector<string> input = {"./executableName", "-j", "--", "-a"};
-    pair<vector<string>,vector<string>> result = splitAtDoubleDash(input);
+    vector<char*> input = options({"./executableName", "-j", "--", "-a"});
+    pair<vector<char*>,vector<char*>> result = splitAtDoubleDash(input);
     EXPECT_VECTOR_EQ({"./executableName", "-j"}, result.first);
-    EXPECT_VECTOR_EQ({"-a"}, result.second);
+    EXPECT_VECTOR_EQ({"./executableName", "-a"}, result.second);
 }
 
 TEST_F(ProgramOptionsUtilsTest, SplitAtDoubleDash_OneLongOption_DoubleDash_OneLongOption) {
-    vector<string> input = {"./executableName", "--myoption", "--", "--myotheroption"};
-    pair<vector<string>,vector<string>> result = splitAtDoubleDash(input);
+    vector<char*> input = options({"./executableName", "--myoption", "--", "--myotheroption"});
+    pair<vector<char*>,vector<char*>> result = splitAtDoubleDash(input);
     EXPECT_VECTOR_EQ({"./executableName", "--myoption"}, result.first);
-    EXPECT_VECTOR_EQ({"--myotheroption"}, result.second);
+    EXPECT_VECTOR_EQ({"./executableName", "--myotheroption"}, result.second);
 }
 
 TEST_F(ProgramOptionsUtilsTest, SplitAtDoubleDash_OnePositionalOption_DoubleDash_OnePositionalOption) {
-    vector<string> input = {"./executableName", "mypositionaloption", "--", "otherpositionaloption"};
-    pair<vector<string>,vector<string>> result = splitAtDoubleDash(input);
+    vector<char*> input = options({"./executableName", "mypositionaloption", "--", "otherpositionaloption"});
+    pair<vector<char*>,vector<char*>> result = splitAtDoubleDash(input);
     EXPECT_VECTOR_EQ({"./executableName", "mypositionaloption"}, result.first);
-    EXPECT_VECTOR_EQ({"otherpositionaloption"}, result.second);
+    EXPECT_VECTOR_EQ({"./executableName", "otherpositionaloption"}, result.second);
 }
 
 TEST_F(ProgramOptionsUtilsTest, SplitAtDoubleDash_MoreOptions) {
-    vector<string> input = {"./executableName", "mypositionaloption", "myotherpositionaloption", "-j", "--alpha", "--", "filename", "--beta", "-j3"};
-    pair<vector<string>,vector<string>> result = splitAtDoubleDash(input);
+    vector<char*> input = options({"./executableName", "mypositionaloption", "myotherpositionaloption", "-j", "--alpha", "--", "filename", "--beta", "-j3"});
+    pair<vector<char*>,vector<char*>> result = splitAtDoubleDash(input);
     EXPECT_VECTOR_EQ({"./executableName", "mypositionaloption", "myotherpositionaloption", "-j", "--alpha"}, result.first);
-    EXPECT_VECTOR_EQ({"filename", "--beta", "-j3"}, result.second);
+    EXPECT_VECTOR_EQ({"./executableName", "filename", "--beta", "-j3"}, result.second);
 }
 
 TEST_F(ProgramOptionsUtilsTest, SplitAtDoubleDash_RealisticCryfsOptions) {
-    vector<string> input = {"./executableName", "rootDir", "mountDir", "--", "-f"};
-    pair<vector<string>,vector<string>> result = splitAtDoubleDash(input);
+    vector<char*> input = options({"./executableName", "rootDir", "mountDir", "--", "-f"});
+    pair<vector<char*>,vector<char*>> result = splitAtDoubleDash(input);
     EXPECT_VECTOR_EQ({"./executableName", "rootDir", "mountDir"}, result.first);
-    EXPECT_VECTOR_EQ({"-f"}, result.second);
+    EXPECT_VECTOR_EQ({"./executableName", "-f"}, result.second);
 }
