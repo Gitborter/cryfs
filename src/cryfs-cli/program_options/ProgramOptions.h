@@ -18,13 +18,18 @@ namespace cryfs {
                            const boost::optional<boost::filesystem::path> &logFile,
                            const boost::optional<std::string> &cipher,
                            const boost::optional<uint32_t> &blocksizeBytes,
+<<<<<<< HEAD
                            const boost::optional<std::string> &scryptParameters,
                            const std::vector<char *> &fuseOptions);
             ProgramOptions(ProgramOptions &&rhs);
             ~ProgramOptions();
+=======
+                           const std::vector<std::string> &fuseOptions);
+            ProgramOptions(ProgramOptions &&rhs) = default;
+>>>>>>> cryfs/develop
 
             const boost::filesystem::path &baseDir() const;
-            boost::filesystem::path mountDir() const;
+            const boost::filesystem::path &mountDir() const;
             const boost::optional<boost::filesystem::path> &configFile() const;
             bool foreground() const;
             const boost::optional<std::string> &cipher() const;
@@ -32,11 +37,11 @@ namespace cryfs {
             const boost::optional<std::string> &scryptParameters() const;
             const boost::optional<double> &unmountAfterIdleMinutes() const;
             const boost::optional<boost::filesystem::path> &logFile() const;
-            const std::vector<char *> &fuseOptions() const;
+            const std::vector<std::string> &fuseOptions() const;
 
         private:
             boost::filesystem::path _baseDir;
-            char *_mountDir;
+            boost::filesystem::path _mountDir;
             boost::optional<boost::filesystem::path> _configFile;
             bool _foreground;
             boost::optional<std::string> _cipher;
@@ -44,7 +49,7 @@ namespace cryfs {
             boost::optional<std::string> _scryptParameters;
             boost::optional<double> _unmountAfterIdleMinutes;
             boost::optional<boost::filesystem::path> _logFile;
-            std::vector<char *> _fuseOptions;
+            std::vector<std::string> _fuseOptions;
 
             DISALLOW_COPY_AND_ASSIGN(ProgramOptions);
         };

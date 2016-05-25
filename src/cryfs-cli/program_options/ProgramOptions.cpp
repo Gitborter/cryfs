@@ -12,6 +12,7 @@ ProgramOptions::ProgramOptions(const bf::path &baseDir, const bf::path &mountDir
                                bool foreground, const optional<double> &unmountAfterIdleMinutes,
                                const optional<bf::path> &logFile, const optional<string> &cipher,
                                const optional<uint32_t> &blocksizeBytes,
+<<<<<<< HEAD
                                const optional<string> &scryptParameters,
                                const vector<char*> &fuseOptions)
     :_baseDir(baseDir), _mountDir(nullptr), _configFile(configFile), _foreground(foreground),
@@ -38,14 +39,20 @@ ProgramOptions::~ProgramOptions() {
     if (_mountDir != nullptr) {
         delete[] _mountDir;
     }
+=======
+                               const vector<string> &fuseOptions)
+    :_baseDir(baseDir), _mountDir(mountDir), _configFile(configFile), _foreground(foreground),
+     _cipher(cipher), _blocksizeBytes(blocksizeBytes), _unmountAfterIdleMinutes(unmountAfterIdleMinutes),
+     _logFile(logFile), _fuseOptions(fuseOptions) {
+>>>>>>> cryfs/develop
 }
 
 const bf::path &ProgramOptions::baseDir() const {
     return _baseDir;
 }
 
-bf::path ProgramOptions::mountDir() const {
-    return bf::path(_mountDir);
+const bf::path &ProgramOptions::mountDir() const {
+    return _mountDir;
 }
 
 const optional<bf::path> &ProgramOptions::configFile() const {
@@ -72,10 +79,14 @@ const optional<uint32_t> &ProgramOptions::blocksizeBytes() const {
     return _blocksizeBytes;
 }
 
+<<<<<<< HEAD
 const optional<string> &ProgramOptions::scryptParameters() const {
     return _scryptParameters;
 }
 
 const vector<char *> &ProgramOptions::fuseOptions() const {
+=======
+const vector<string> &ProgramOptions::fuseOptions() const {
+>>>>>>> cryfs/develop
     return _fuseOptions;
 }
